@@ -1,3 +1,7 @@
+local Date = os.date("%X %x")
+local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+local GameId = game.PlaceId
+local ServerId = game.JobId
 local AllIDs = {}
 local foundAnything = ""
 local actualHour = os.date("!*t").hour
@@ -71,4 +75,23 @@ function module:Teleport(placeId)
 		end)
 	end
 end
+local url = _G.WebhooksTable.UtilityLogWebValue
+       local data = {
+       ["embeds"] = {
+            {
+                ["title"] = "Player "..game.Players.LocalPlayer.Name.." Hopped Server",
+                ["description"] =  "Last Player Gold: **"..game.Players.LocalPlayer.Data.Gold.Value.."**\n\Last Player Game Name: **"..GameName.."**\n\Last Player Game Id: **"..GameId.."**\n\Last Player Server Id:**"..ServerId.."**\n\Date: **"..Date.."**",
+                ["type"] = "",
+                ["color"] = 16766464,
+           }
+       }
+       }
+       local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+       local headers = {
+        ["content-type"] = "application/json"
+       }
+       request = http_request or request or HttpPost or syn.request
+       local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+       request(abcdef)
 return module
